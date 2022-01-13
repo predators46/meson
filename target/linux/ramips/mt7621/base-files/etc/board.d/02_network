@@ -29,7 +29,8 @@ ramips_setup_interfaces()
 	xiaomi,mi-router-cr6606|\
 	xiaomi,mi-router-cr6608|\
 	xiaomi,mi-router-cr6609|\
-	xiaomi,redmi-router-ac2100)
+	xiaomi,redmi-router-ac2100|\
+	zrouter,zr-2662-v1)
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3" "wan"
 		;;
 	asiarf,ap7621-001|\
@@ -176,6 +177,10 @@ ramips_setup_macs()
 		wan_mac=$(mtd_get_mac_ascii Config protest_wan_mac)
 		label_mac=$lan_mac
 		;;
+	zrouter,zr-2662-v1)
+		lan_mac=$(mtd_get_mac_ascii Factory lanmac)
+		wan_mac=$(mtd_get_mac_ascii Factory wanmac)
+		label_mac=$lan_mac
 	esac
 
 	[ -n "$lan_mac" ] && ucidef_set_interface_macaddr "lan" $lan_mac

@@ -1,0 +1,124 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+#include "mt7621.dtsi"
+
+
+/ {
+	compatible = "zrouter,zr-2662-v1";
+	model = "Zrouter ZR-2662 v1.0";
+
+	chosen {
+		bootargs = "console=ttyS0,115200";
+	};
+};
+
+&ethernet {
+	reg = <0x1e100000 0xe000>;
+};
+
+&nand {
+	status = "okay";
+
+	mediatek,bbt;
+	mediatek,bmt-remap-range = <0x180000 0x5800000>;
+
+	partitions {
+		#address-cells = <0x01>;
+		#size-cells = <0x01>;
+		compatible = "fixed-partitions";
+
+		partition@0 {
+			label = "Bootloader";
+			reg = <0x0 0x80000>;
+			read-only;
+		};
+
+		partition@80000 {
+			label = "Config";
+			reg = <0x80000 0x80000>;
+			read-only;
+		};
+
+		factory: partition@100000 {
+			label = "Factory";
+			reg = <0x100000 0x80000>;
+			read-only;
+		};
+
+		partition@180000 {
+			compatible = "denx,fit";
+			label = "firmware";
+			reg = <0x180000 0x5800000>;
+		};
+
+		partition@5980000 {
+			label = "firmware_backup";
+			reg = <0x5980000 0x2000000>;
+			read-only;
+		};
+
+		partition@7b00000 {
+			label = "zrsave";
+			reg = <0x7b00000 0x100000>;
+			read-only;
+		};
+
+		partition@7c00000 {
+			label = "config2";
+			reg = <0x7c00000 0x100000>;
+			read-only;
+		};
+	};
+};
+
+&pcie {
+	status = "okay";
+
+	bus-range = <0x00 0xff>;
+};
+
+&pcie1 {
+	wifi@0,0 {
+		mediatek,mtd-eeprom = <&factory 0x0>;
+	};
+};
+
+&pcie2 {
+	status = "disabled";
+};
+
+&state_default {
+	gpio {
+		groups = "i2c";
+		function = "gpio";
+	};
+};
+
+&switch0 {
+	compatible = "mediatek,mt7530";
+	ports {
+		port@1 {
+			status = "okay";
+
+			label = "lan3";
+		};
+
+		port@2 {
+			status = "okay";
+
+			label = "lan2";
+		};
+
+		port@3 {
+			status = "okay";
+
+			label = "lan1";
+		};
+
+		port@4 {
+			status = "okay";
+
+			label = "wan";
+		};
+	};
+};

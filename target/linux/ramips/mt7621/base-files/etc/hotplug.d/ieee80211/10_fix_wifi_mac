@@ -62,4 +62,10 @@ case "$board" in
 		hw_mac_addr="$(mtd_get_mac_binary factory 0x4)"
 		[ "$PHYNBR" = "1" ] &&  macaddr_add $hw_mac_addr "0x100000" > /sys${DEVPATH}/macaddress
 		;;
+	zrouter,zr-2662-v1)
+		hw_mac_addr_2g="$(mtd_get_mac_binary Factory wifi2gmac)"
+		hw_mac_addr_5g="$(mtd_get_mac_binary Factory wifi5gmac)"
+		[ "$PHYNBR" = "0" ] && macaddr_add $hw_mac_addr_2g "0" > /sys${DEVPATH}/macaddress
+		[ "$PHYNBR" = "1" ] && macaddr_add $hw_mac_addr_5g "0" > /sys${DEVPATH}/macaddress
+		;;
 esac

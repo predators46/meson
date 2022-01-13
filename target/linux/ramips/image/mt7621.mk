@@ -1937,6 +1937,21 @@ define Device/zio_freezio
 endef
 TARGET_DEVICES += zio_freezio
 
+define Device/zrouter_zr-2662-v1
+  $(Device/dsa-migration)
+  BLOCKSIZE := 128k
+  DEVICE_VENDOR:= Zrouter
+  DEVICE_MODEL := ZR-2662
+  DEVICE_PACKAGES := kmod-mt7915e
+  DEVICE_VARIANT := v1.0
+  IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-rootfs | pad-rootfs | check-size | append-metadata
+  IMAGE_SIZE := 88576k
+  KERNEL := kernel-bin | lzma | loader-kernel | fit none $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb
+  KERNEL_INITRAMFS := kernel-bin | lzma | loader-kernel | lzma | fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb with-initrd
+  #KERNEL_LOADADDR := 0x81001000
+endef
+TARGET_DEVICES += zrouter_zr-2662-v1
+
 define Device/zyxel_nr7101
   $(Device/dsa-migration)
   BLOCKSIZE := 128k
