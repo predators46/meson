@@ -19,8 +19,8 @@
 &nand {
 	status = "okay";
 
-	mediatek,bbt;
-	mediatek,bmt-remap-range = <0x180000 0x5800000>;
+	//mediatek,bbt;
+	//mediatek,bmt-remap-range = <0x180000 0x5800000>;
 
 	partitions {
 		#address-cells = <0x01>;

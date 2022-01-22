@@ -1947,8 +1947,10 @@ define Device/zrouter_zr-2662-v1
   IMAGE/sysupgrade.bin := append-kernel | pad-to $$$$(BLOCKSIZE) | append-rootfs | pad-rootfs | check-size | append-metadata
   IMAGE_SIZE := 88576k
   KERNEL := kernel-bin | lzma | loader-kernel | fit none $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb
-  KERNEL_INITRAMFS := kernel-bin | lzma | loader-kernel | lzma | fit lzma $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb with-initrd
-  #KERNEL_LOADADDR := 0x81001000
+  KERNEL_INITRAMFS := kernel-bin | lzma | loader-kernel | fit none $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb with-initrd
+  KERNEL_LOADADDR := 0x81001000
+  #KERNEL_SIZE := 4096k
+  LOADER_LZMA_TEXT_START := 0x82800000
 endef
 TARGET_DEVICES += zrouter_zr-2662-v1
 

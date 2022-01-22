@@ -24,6 +24,7 @@ ldrflashstart-$(CONFIG_TARGET_ramips_mt7621) := 0x1fc00000
 
 LOADER_PLATFORM := $(ldrplatform-y)
 LOADER_FLASH_START := $(ldrflashstart-y)
+LOADER_LZMA_TEXT_START := 0x81800000
 
 KERNEL_DTB = kernel-bin | append-dtb | lzma
 
@@ -45,7 +46,7 @@ define Build/loader-common
 		PKG_BUILD_DIR="$@.src" \
 		TARGET_DIR="$(dir $@)" LOADER_NAME="$(notdir $@)" \
 		BOARD="$(BOARDNAME)" PLATFORM="$(LOADER_PLATFORM)" \
-		LZMA_TEXT_START=0x81800000 LOADADDR=$(KERNEL_LOADADDR) \
+		LZMA_TEXT_START=$(LOADER_LZMA_TEXT_START) LOADADDR=0x80001000 \
 		$(1) compile loader.$(LOADER_TYPE)
 	mv "$@.$(LOADER_TYPE)" "$@"
 	rm -rf $@.src
